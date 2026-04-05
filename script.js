@@ -2,31 +2,36 @@ const apps = [
     {
         name: "Shop Inventory",
         package: "com.jsinh.shopinventory",
+        image: "shop.png", // Change this to your uploaded filename
         desc: "Professional stock management and real-time profit tracking for retail businesses.",
         status: "In Testing"
     },
     {
         name: "SchoolApp",
         package: "com.jsinh.schoolmanagement",
-        desc: "A comprehensive management solution for educational institutions and administrators.",
+        image: "school.png",
+        desc: "A comprehensive management solution for educational institutions.",
         status: "Live"
     },
     {
         name: "Element Masters",
         package: "com.jsinh.elementmasters",
-        desc: "Engaging strategy game featuring elemental combat and progression systems.",
+        image: "element.png",
+        desc: "Engaging strategy game featuring elemental combat.",
         status: "Live"
     },
     {
         name: "COLORING GAME",
         package: "com.jsinh.coloringgame",
-        desc: "Creative and relaxing digital coloring experience for all ages.",
+        image: "coloring.png",
+        desc: "Creative and relaxing digital coloring experience.",
         status: "Live"
     },
     {
         name: "Square Bird",
         package: "com.jsinh.SquareBird",
-        desc: "Fast-paced arcade challenge testing reflexes and timing.",
+        image: "bird.png",
+        desc: "Fast-paced arcade challenge testing reflexes.",
         status: "Live"
     }
 ];
@@ -34,15 +39,15 @@ const apps = [
 const gallery = document.getElementById('app-gallery');
 
 apps.forEach(app => {
-    // Replace '#' with 'https://play.google.com/store/apps/details?id=' + app.package when live
     const playStoreLink = `https://play.google.com/store/apps/details?id=${app.package}`;
     
     const card = `
         <div class="app-card">
-            <span style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase;">${app.status}</span>
+            <div class="status-pill">${app.status}</div>
+            <img src="${app.image}" alt="${app.name} icon" style="width: 64px; height: 64px; border-radius: 12px; margin-bottom: 15px; object-fit: cover; background: #334155;">
             <h4>${app.name}</h4>
             <p>${app.desc}</p>
-            <a href="${playStoreLink}" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 0.8rem; font-weight: bold;">VIEW ON PLAY STORE →</a>
+            <a href="${playStoreLink}" target="_blank" class="btn">VIEW ON PLAY STORE</a>
         </div>
     `;
     gallery.innerHTML += card;
