@@ -36,6 +36,18 @@ const apps = [
     }
 ];
 
+function startSlider() {
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+
+    setInterval(() => {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }, 4000); // Changes image every 4 seconds
+}
+
+
 const gallery = document.getElementById('app-gallery');
 
 apps.forEach(app => {
@@ -52,3 +64,5 @@ apps.forEach(app => {
     `;
     gallery.innerHTML += card;
 });
+
+startSlider();
