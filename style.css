@@ -27,9 +27,10 @@ nav a:hover { color: var(--accent); }
 .hero {
     padding: 100px 0;
     background: radial-gradient(circle at 10% 20%, #1e293b 0%, #0f172a 100%);
-    min-height: 60vh;
+    min-height: 70vh;
     display: flex;
     align-items: center;
+    cursor: pointer; /* Shows user they can click the hero */
 }
 
 .hero-split {
@@ -40,11 +41,9 @@ nav a:hover { color: var(--accent); }
     width: 100%;
 }
 
-.hero-content { flex: 1; }
+.hero-content { flex: 1; pointer-events: none; } /* Clicks pass through to hero */
 .hero-content h1 { font-size: 3.5rem; line-height: 1.1; margin: 0 0 20px 0; color: #fff; }
 .hero-content p { font-size: 1.2rem; color: #94a3b8; margin-bottom: 30px; }
-
-.hero-btns { display: flex; gap: 15px; }
 
 /* The Floating Interactive Card */
 .hero-interactive {
@@ -64,9 +63,8 @@ nav a:hover { color: var(--accent); }
     position: relative;
     overflow: hidden;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    animation: floating 6s ease-in-out infinite;
+    transition: transform 0.1s ease-out;
     transform-style: preserve-3d;
-    cursor: pointer;
 }
 
 .glass-card img {
@@ -75,14 +73,21 @@ nav a:hover { color: var(--accent); }
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    /* Movement transition: Slide in from right, fade in */
+    transform: translateX(100%) scale(0.8); 
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glass-card img.active { opacity: 0.7; }
+/* State when image is active */
+.glass-card img.active { 
+    opacity: 0.8; 
+    transform: translateX(0) scale(1);
+}
 
-@keyframes floating {
-    0%, 100% { transform: translateY(0px) rotateX(0deg); }
-    50% { transform: translateY(-20px) rotateX(2deg); }
+/* State for the previous image (exiting to the left) */
+.glass-card img.exit {
+    opacity: 0;
+    transform: translateX(-100%) scale(0.8);
 }
 
 /* App Grid Section */
@@ -96,7 +101,6 @@ nav a:hover { color: var(--accent); }
     border: 1px solid #334155; 
     transition: 0.3s;
 }
-
 .app-card:hover { transform: translateY(-10px); border-color: var(--accent); }
 
 .status-pill {
@@ -116,15 +120,6 @@ nav a:hover { color: var(--accent); }
     color: var(--bg);
     text-decoration: none;
     font-weight: bold;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-.btn-outline {
-    padding: 12px 24px;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    text-decoration: none;
     border-radius: 8px;
     transition: 0.3s;
 }
