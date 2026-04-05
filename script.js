@@ -2,7 +2,7 @@ const apps = [
     {
         name: "Shop Inventory",
         package: "com.jsinh.shopinventory",
-        image: "shop.png", // Change this to your uploaded filename
+        image: "shop.png",
         desc: "Professional stock management and real-time profit tracking for retail businesses.",
         status: "In Testing"
     },
@@ -36,27 +36,14 @@ const apps = [
     }
 ];
 
-function startSlider() {
-    const slides = document.querySelectorAll('.slide');
-    let currentSlide = 0;
-
-    setInterval(() => {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }, 4000); // Changes image every 4 seconds
-}
-
-
+// 1. Generate the App Gallery
 const gallery = document.getElementById('app-gallery');
-
 apps.forEach(app => {
     const playStoreLink = `https://play.google.com/store/apps/details?id=${app.package}`;
-    
     const card = `
         <div class="app-card">
             <div class="status-pill">${app.status}</div>
-            <img src="${app.image}" alt="${app.name} icon" style="width: 64px; height: 64px; border-radius: 12px; margin-bottom: 15px; object-fit: cover; background: #334155;">
+            <img src="${app.image}" alt="${app.name}" style="width: 60px; height: 60px; border-radius: 12px; margin-bottom: 15px;">
             <h4>${app.name}</h4>
             <p>${app.desc}</p>
             <a href="${playStoreLink}" target="_blank" class="btn">VIEW ON PLAY STORE</a>
@@ -65,4 +52,23 @@ apps.forEach(app => {
     gallery.innerHTML += card;
 });
 
+// 2. Hero Slider Logic
+function startSlider() {
+    const slides = document.querySelectorAll('.glass-card .slide');
+    let current = 0;
+    setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+    }, 4000);
+}
 startSlider();
+
+// 3. Interactive Mouse Tilt Effect
+const card = document.querySelector('.glass-card');
+document.addEventListener('mousemove', (e) => {
+    if(!card) return;
+    const x = (window.innerWidth / 2 - e.pageX) / 30;
+    const y = (window.innerHeight / 2 - e.pageY) / 30;
+    card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+});
