@@ -52,23 +52,45 @@ apps.forEach(app => {
     gallery.innerHTML += card;
 });
 
-// 2. Hero Slider Logic
-function startSlider() {
-    const slides = document.querySelectorAll('.glass-card .slide');
-    let current = 0;
-    setInterval(() => {
-        slides[current].classList.remove('active');
-        current = (current + 1) % slides.length;
-        slides[current].classList.add('active');
-    }, 4000);
+// 2. Interactive Transition Logic (Scroll & Click)
+const slides = document.querySelectorAll('.glass-card img');
+let current = 0;
+let isScrolling = false;
+
+function nextSlide() {
+    // Set old slide to exit (moves left)
+    slides[current].classList.remove('active');
+    slides[current].classList.add('exit');
+    
+    // Set new slide to active (slides in from right)
+    current = (current + 1) % slides.length;
+    slides[current].classList.remove('exit');
+    slides[current].classList.add('active');
+
+    // Clean up previous exit classes after transition
+    setTimeout(() => {
+        slides.forEach((s, i) => { if(i !== current) s.classList.remove('exit'); });
+    }, 800:);
 }
-startSlider();
+
+// Trigger on Click (Hero Section)
+document.querySelector('.hero').addEventListener('click', nextSlide);
+
+// Trigger on Scroll
+window.addEventListener('wheel', (e) => {
+    if (isScrolling) return;
+    if (Math.abs(e.deltaY) > 50) { // Check if scroll is strong enough
+        isScrolling = true;
+        nextSlide();
+        setTimeout(() => { isScrolling = false; }, 1000); // Prevents rapid flipping
+    }
+});
 
 // 3. Interactive Mouse Tilt Effect
-const card = document.querySelector('.glass-card');
+const heroCard = document.querySelector('.glass-card');
 document.addEventListener('mousemove', (e) => {
-    if(!card) return;
+    if(!heroCard) return;
     const x = (window.innerWidth / 2 - e.pageX) / 30;
     const y = (window.innerHeight / 2 - e.pageY) / 30;
-    card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+    heroCard.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
 });
