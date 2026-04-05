@@ -54,47 +54,21 @@ apps.forEach(app => {
 
 // 2. Hero Slider Logic
 function startSlider() {
-    // 2. Interactive Transition Logic (Manual Click & Scroll)
-const slides = document.querySelectorAll('.glass-card img');
-let current = 0;
-let isMoving = false;
-
-function nextSlide() {
-    if (isMoving) return;
-    isMoving = true;
-
-    // Current image exits to the left
-    slides[current].classList.remove('active');
-    slides[current].classList.add('exit');
-    
-    // Next image enters from the right
-    current = (current + 1) % slides.length;
-    slides[current].classList.remove('exit');
-    slides[current].classList.add('active');
-
-    // Reset exit classes after animation finishes
-    setTimeout(() => {
-        slides.forEach((s, i) => { if(i !== current) s.classList.remove('exit'); });
-        isMoving = false;
-    }, 800);
+    const slides = document.querySelectorAll('.glass-card .slide');
+    let current = 0;
+    setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+    }, 4000);
 }
+startSlider();
 
-// Click to change
-document.querySelector('.hero').addEventListener('click', nextSlide);
-
-// Scroll to change (Debounced for better feel)
-window.addEventListener('wheel', (e) => {
-    if (Math.abs(e.deltaY) > 50) { 
-        nextSlide();
-    }
-}, { passive: true });
-
-// 3. Mouse Tilt (Only for Desktop)
-if (window.innerWidth > 768) {
-    const heroCard = document.querySelector('.glass-card');
-    document.addEventListener('mousemove', (e) => {
-        const x = (window.innerWidth / 2 - e.pageX) / 35;
-        const y = (window.innerHeight / 2 - e.pageY) / 35;
-        if(heroCard) heroCard.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-    });
-}
+// 3. Interactive Mouse Tilt Effect
+const card = document.querySelector('.glass-card');
+document.addEventListener('mousemove', (e) => {
+    if(!card) return;
+    const x = (window.innerWidth / 2 - e.pageX) / 30;
+    const y = (window.innerHeight / 2 - e.pageY) / 30;
+    card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+});
